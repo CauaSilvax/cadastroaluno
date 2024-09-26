@@ -11,19 +11,16 @@ struct Atendente {
 
 char nome_arquivo[50];
 
-// Funções de controle de propriedades
+
 void carregarPropriedades() {
     FILE *file = fopen("propriedades.txt", "r");
     if (file) {
         fscanf(file, "[nome_arquivo = %49s]", nome_arquivo);
         fclose(file);
-    } else {
-        printf("Erro ao carregar o arquivo de propriedades.\n");
-        strcpy(nome_arquivo, "atendente.txt");
-    }
+    } 
 }
 
-// Função para incluir atendente
+
 void incluirAtendente(struct Atendente atendente) {
     FILE *file = fopen(nome_arquivo, "a");
     if (file) {
@@ -35,7 +32,6 @@ void incluirAtendente(struct Atendente atendente) {
     }
 }
 
-// Função para alterar atendente
 int alterarAtendente(struct Atendente* atendente, int matricula) {
     if (matricula == atendente->matricula) {
         getchar();
@@ -51,7 +47,7 @@ int alterarAtendente(struct Atendente* atendente, int matricula) {
     return 0;
 }
 
-// Função para excluir atendente
+
 int excluirAtendente(struct Atendente* atendente, int matricula) {
     if (matricula == atendente->matricula) {
         atendente->matricula = 0;
@@ -61,7 +57,7 @@ int excluirAtendente(struct Atendente* atendente, int matricula) {
     return 0;
 }
 
-// Função para consultar atendente
+
 int consultarAtendente(struct Atendente atendente, int matricula) {
     if (matricula == atendente.matricula) {
         printf("\nAtendente encontrado!\n");
