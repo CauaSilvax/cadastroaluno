@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_CHAMADOS 5
+
+int gerarSenha() {
+    return rand() % 100 + 1;
+}
+
+int main() {
+    char resposta, tipo;
+    int guiche = 1, senha, totalChamados = 0;
+    char tiposChamado[MAX_CHAMADOS];
+    int senhasChamado[MAX_CHAMADOS];
+    int guichesChamado[MAX_CHAMADOS];
+
+    srand(time(NULL));
+
+    // arquivo para adicionar os chamados
+    FILE *arquivo = fopen("Chamados.txt", "a");
+    
+
+    do {
+        printf("Deseja retirar uma senha? (s ou n): ");
+        scanf(" %c", &resposta);
+
+        if (resposta == 's' || resposta == 'S') {
+            printf("Tipo de paciente (c para comum, p para preferencial): ");
+            scanf(" %c", &tipo);
+
+            senha = gerarSenha();
+
+            if (totalChamados < MAX_CHAMADOS) {
+                tiposChamado[totalChamados] = tipo;
+                senhasChamado[totalChamados] = senha;
+                guichesChamado[totalChamados] = guiche;
+                totalChamados++;
+            } else {
+                for (int i = 0; i < MAX_CHAMADOS - 1; i++) {
+                    tiposChamado[i] = tiposChamado[i + 1];
+                    senhasChamado[i] = senhasChamado[i + 1];
+                    guichesChamado[i] = guichesChamado[i + 1];
+                }
+                tiposChamado[MAX_CHAMADOS - 1] = tipo;
+                senhasChamado[MAX_CHAMADOS - 1] = senha;
+                guichesChamado[MAX_CHAMADOS - 1] = guiche;
+            }
+
+            printf("senha: %c%d  || guichê: %d\n", tipo, senha, guiche);
+            
+            // chamado no arquivo
+            fprintf(arquivo, "Senha: %c%d | Guiche: %d\n", tipo, senha, guiche);
+            guiche++;
+
+            // Painel de chamados
+            printf("\n...Painel de Chamados.../\n");
+            for (int i = 0; i < totalChamados; i++) {
+                printf("Senha: %c%d | Guiche: %d\n", tiposChamado[i], senhasChamado[i], guichesChamado[i]);
+            }
+            printf("--------------------------\n");
+        }
+
+    } while (resposta == 's' || resposta == 'S');
+
+    // fechar o arquivo após uso
+    fclose(arquivo);
+
+    printf("Obrigado!\n");
+    return 0;
+}
+ 
