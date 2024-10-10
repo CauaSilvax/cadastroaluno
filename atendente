@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <string.h>
+
+#define TAM 20
+
+struct Usuario {
+    char login[TAM];
+    char senha[TAM];
+};
+
+void chamarPaciente(int guiche) {
+    static int senha = 100;  //inicializa a senha com 100 
+    printf("paciente chamado! senha: %d | guiche: %d\n", senha, guiche);
+    senha++; // adiciona 1 na senha após o paciente ser chamado.
+}
+
+int main() {
+    struct Usuario usuario;
+    char loginAtendente[TAM], senhaAtendente[TAM];
+    int opcao, atendenteLogado = 0, guiche;
+    FILE *arquivo;
+
+    
+    printf("\n...Login do Atendente...\n");
+    arquivo = fopen("atendentes.txt", "r");
+   
+    while (!atendenteLogado) {
+        printf("Digite o login do atendente: ");
+        scanf("%s", loginAtendente);
+        printf("Digite a senha do atendente: ");
+        scanf("%s", senhaAtendente);
+
+        
+        while (fscanf(arquivo, "%s %s", usuario.login, usuario.senha) != EOF) {
+            if (strcmp(loginAtendente, usuario.login) == 0 && strcmp(senhaAtendente, usuario.senha) == 0) {
+                printf("Ola, %s!\n", usuario.login);
+                atendenteLogado = 1;
+                break;
+            }
+        }
+
+        if (!atendenteLogado) {
+            printf("Login ou senha incorretos.\n");
+        
+        }
+    }
+
+    fclose(arquivo);
+
+    // Menu do Atendente
+    do {
+        printf("\n1. Chamar proximo paciente\n2. Sair\nSelecione uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o numero do guiche: ");
+                scanf("%d", &guiche);
+                chamarPaciente(guiche);
+                break;
+
+            case 2:
+                printf("Fim do trabalho.\n");
+                break;
+
+            default:
+                printf("Opçao invalida!\n");
+        }
+
+    } while (opcao != 2);
+
+    return 0;
+}
