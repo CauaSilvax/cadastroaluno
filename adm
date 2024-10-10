@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <string.h>
+
+#define TAM 20
+
+struct Usuario {
+    char login[TAM];
+    char senha[TAM];
+};
+
+int main() {
+    struct Usuario usuario;
+    char login[TAM], senha[TAM];
+    int opcao, logado = 0;
+    FILE *arquivo;
+
+    printf("...Login do Administrador...\n");
+    do {
+        printf("Digite o login: ");
+        scanf("%s", login);
+        printf("Digite a senha: ");
+        scanf("%s", senha);
+
+        if (strcmp(login, "123") == 0 && strcmp(senha, "123") == 0) {
+            printf("Administrador logado!\n");
+            logado = 1;
+        } else {
+            printf("Login ou senha do administrador incorretos.\n");
+        }
+    } while (!logado);
+
+    // Menu do admin
+    do {
+        printf("\n1. Cadastrar Atendente\n2. Sair\nSelecione uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                // Cadastro do atendente
+                printf(".....Cadastro de Atendente......\n");
+                printf("Digite o login: ");
+                scanf("%s", usuario.login);
+                printf("Digite a senha: ");
+                scanf("%s", usuario.senha);
+
+                // Salvar dados no arquivo "atendentes.txt"
+                arquivo = fopen("atendentes.txt", "a");
+                if (arquivo == NULL) {
+                    printf("Erro ao abrir o arquivo!\n");
+                    return 1; // Finaliza o programa se não conseguir abrir o arquivo
+                }
+                fprintf(arquivo, "%s %s\n", usuario.login, usuario.senha);
+                fclose(arquivo);
+
+                printf("Cadastro realizado!\n");
+                break;
+
+            case 2:
+                printf("Fim do cadastro.\n");
+                break;
+
+            default:
+                printf("Opção inválida!\n");
+        }
+
+    } while (opcao != 2);
+
+    return 0;
+}
